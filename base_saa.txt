@@ -1,0 +1,201 @@
+Pergunta: Uma empresa está usando o AWS IAM para gerenciar o acesso aos serviços da AWS. O Arquiteto de Soluções da empresa criou a seguinte política de IAM para o AWS Lambda:
+
+{
+"Version": "2012-10-17",
+"Statement": [
+{
+"Effect": "Allow",
+"Action": [
+"lambda:CreateFunction",
+"lambda:DeleteFunction"
+],
+"Resource": "*"
+},
+{
+"Effect": "Deny",
+"Action": [
+"lambda:CreateFunction",
+"lambda:DeleteFunction",
+"lambda:InvokeFunction",
+"lambda:TagResource"
+],
+"Resource": "*",
+"Condition": {
+"IpAddress": {
+"aws:SourceIp": "187.5.104.11/32"
+}
+}
+}
+]
+}
+
+Qual das seguintes opções é permitida por esta política?
+
+Opções:
+A) Crie uma função do AWS Lambda usando o 187.5.104.11/32 address.
+
+B) Crie uma função do AWS Lambda usando o 100.220.0.11/32 address.
+
+C)Exclua uma função do AWS Lambda usando o 187.5.104.11/32 address.
+
+D) Exclua uma função do AWS Lambda de qualquer endereço de rede.
+
+Resposta Correta: B
+
+Pergunta: Uma empresa planeja desenvolver um serviço de mensagens personalizado que será usado para treinar uma IA para um recurso de resposta automática. Espera-se que o serviço receba milhares de mensagens por dia, todas processadas por um cluster do Amazon EMR. É crucial que nenhuma mensagem seja perdida, que nenhuma duplicata seja gerada e que as mensagens sejam processadas no EMR na mesma ordem em que chegam.
+
+Qual das seguintes opções pode satisfazer o requisito fornecido?
+
+Opções:
+A)Configure um tópico do Amazon SNS para lidar com as mensagens.
+
+B)Configure uma fila padrão do Amazon SQS para manipular as mensagens.
+
+C)Crie um Amazon Kinesis Data Stream para coletar as mensagens.
+
+D) Crie um Amazon Data Firehose para manipular as mensagens.
+
+Resposta Correta: C
+
+Pergunta: Uma equipe de operações possui uma aplicação em execução em instâncias do EC2 dentro de duas VPCs personalizadas. As VPCs estão localizadas nas regiões de Ohio e Norte da Virgínia, respectivamente. A equipe deseja transferir dados entre as instâncias sem atravessar a internet pública.
+Qual combinação de etapas alcançará isso? (Selecione DUAS.)
+
+Opções:
+A) Configure uma conexão de peering de VPC entre as VPCs.
+B) Implemente um endpoint VPC em cada região para habilitar uma conexão privada.
+C) Crie um Gateway de Internet somente de saída.
+D) Inicie um Gateway NAT na sub-rede pública de cada VPC.
+E) Reconfigure o destino e o destino da tabela de rotas da sub-rede das instâncias.
+
+Respostas Corretas:A,E
+
+Pergunta:Um arquiteto de soluções está gerenciando uma aplicação executada em uma instância do Windows EC2 com um Amazon FSx para Windows File Server conectado. Para economizar custos, a gerência decidiu interromper a instância fora do horário comercial e reiniciá-la somente quando necessário. Observou-se que a aplicação leva vários minutos para ficar totalmente operacional, o que afeta a produtividade.
+Como o arquiteto de soluções pode acelerar o tempo de carregamento da instância sem aumentar o custo?
+
+Opções:
+A) Migre o aplicativo para uma instância EC2 baseada em Linux.
+B) Migre o aplicativo para uma instância EC2 com a hibernação habilitada.
+C) Habilite o modo de hibernação na instância EC2.
+D) Desabilite o Serviço de Metadados de Instância para reduzir as coisas que precisam ser carregadas na inicialização.
+
+Resposta Correta:B
+
+Pergunta:Uma empresa possui vários departamentos de pesquisa que implantaram diversos recursos na nuvem da AWS. Cada departamento tem liberdade para provisionar recursos conforme necessário. Para garantir o funcionamento normal, a empresa deseja monitorar o uso de recursos da AWS para não atingir as cotas de serviço da AWS inesperadamente.
+Qual combinação de ações o Arquiteto de Soluções deve implementar para atender aos requisitos da empresa? (Selecione DUAS.)
+
+Opções:
+A) Utilize a regra gerenciada da AWS no AWS Config para monitorar as cotas de serviços de recursos da AWS. Agende essa verificação usando uma função do AWS Lambda.
+B) Crie um tópico do Amazon Simple Notification Service (Amazon SNS) e configure-o como um destino para notificações.
+C) Capture os eventos usando o Amazon EventBridge (Amazon CloudWatch Events) e use um tópico do Amazon Simple Notification Service (Amazon SNS) como alvo para notificações.
+D) Consulte a verificação de limites do AWS Trusted Advisor Service a cada 24 horas, chamando a operação DescribeTrustedAdvisorChecks da API. Certifique-se de que sua conta AWS tenha um plano de suporte para desenvolvedores.
+E) Escreva uma função do AWS Lambda que atualize as verificações de limites do AWS Trusted Advisor Service e configure-a para ser executada a cada 24 horas.
+
+Respostas Corretas:C, E
+
+
+Pergunta:Um Arquiteto de Soluções está projetando um aplicativo de monitoramento que gera registros de auditoria de todas as atividades operacionais da infraestrutura de nuvem da empresa. A equipe de Segurança e Conformidade de TI exige que o aplicativo retenha os registros por 5 anos antes que os dados possam ser excluídos.
+Como o Arquiteto pode atender ao requisito acima?
+
+Opções:
+A) Armazene os logs de auditoria em um volume EFS e use o mecanismo de bloqueio de arquivos do Network File System versão 4 (NFSv4).
+B) Armazene os logs de auditoria em um bucket do Amazon S3 e habilite a exclusão de autenticação multifator (MFA Delete) no bucket do S3.
+C) Armazene os logs de auditoria em um volume do EBS e depois faça snapshots do EBS todo mês.
+D) Armazene os logs de auditoria em um cofre Glacier e use o recurso Vault Lock.
+
+Resposta Correta: D
+
+Pergunta:Uma empresa implantou um banco de dados do sistema de matrícula online em uma universidade de prestígio, hospedado no RDS. O Arquiteto de Soluções precisa monitorar as métricas do banco de dados no Amazon CloudWatch para garantir a disponibilidade do sistema de matrícula.
+Quais são as métricas de monitoramento aprimoradas que o Amazon CloudWatch coleta de instâncias de banco de dados do Amazon RDS que fornecem informações mais precisas? (Selecione DUAS.)
+
+Opções:
+A) Utilização da CPU
+B) Conexões de banco de dados
+C) Processos do SO
+D) Memória Liberável
+E) Processos filho do RDS
+
+Respostas Corretas:C, D
+
+Pergunta:Um Arquiteto de Soluções está tentando habilitar a Replicação Entre Regiões em um bucket S3, mas esta opção está desabilitada. Qual das seguintes opções é um motivo válido para isso?
+
+Opções:
+A) Para usar o recurso de replicação entre regiões no S3, você precisa primeiro habilitar o controle de versão no bucket.
+B) O recurso de replicação entre regiões está disponível somente para o Amazon S3 – Acesso pouco frequente.
+C) O recurso de replicação entre regiões está disponível apenas para Amazon S3 – One Zone-IA.
+D) Este é um recurso premium disponível apenas para contas AWS Enterprise.
+
+Resposta Correta: A
+
+Pergunta:Uma empresa de mídia está usando Amazon EC2, ELB e S3 para seu portal de compartilhamento de vídeos para cineastas. Eles estão usando uma classe de armazenamento S3 padrão para armazenar todos os vídeos de alta qualidade que são acessados com frequência apenas durante os primeiros três meses de publicação.
+Como arquiteto de soluções, o que você deve fazer se a empresa precisar transferir ou arquivar automaticamente dados de mídia de um bucket do S3 para o Glacier?
+
+Opções:
+A) Use um script de shell personalizado que transfira dados do bucket S3 para o Glacier
+B) Usar políticas de ciclo de vida
+C) Usar Amazon SWF
+D) Use o Amazon SQS
+
+Resposta Correta: B
+
+Pergunta:Uma empresa de viagens possui um conjunto de aplicações web hospedadas em um grupo de Auto Scaling de instâncias EC2 sob demanda, atrás de um Application Load Balancer que gerencia o tráfego de vários domínios web.
+Para aumentar a segurança e reduzir o custo geral, você é instruído a proteger o sistema permitindo que vários domínios sirvam tráfego SSL sem a necessidade de reautenticar e reprovisionar seu certificado sempre que adicionar um novo domínio.
+Qual das seguintes opções é a solução mais econômica para atender ao requisito acima?
+
+Opções:
+A) Adicione um Nome Alternativo de Assunto (SAN) para cada domínio adicional ao seu certificado.
+B) Carregue todos os certificados SSL dos domínios no ALB usando o console e vincule vários certificados ao mesmo ouvinte seguro no seu balanceador de carga. O ALB escolherá automaticamente o certificado TLS ideal para cada cliente usando a Indicação de Nome do Servidor (SNI).
+C) Use um certificado curinga para lidar com vários subdomínios e domínios diferentes.
+D) Crie uma nova distribuição web do CloudFront e configure-a para atender solicitações HTTPS usando endereços IP dedicados.
+
+Resposta Correta: B
+
+Pergunta:Para economizar custos, seu gerente o instruiu a analisar e revisar a configuração da sua infraestrutura de nuvem na AWS. Você também deve fornecer uma estimativa de quanto sua empresa pagará por todos os recursos da AWS que estiver utilizando.
+Neste cenário, qual das seguintes opções incorrerá em custos? (Selecione DUAS.)
+
+Opções:
+A) Uma instância EC2 sob demanda interrompida
+B) Uma instância EC2 em execução
+C) Volumes EBS anexados a instâncias EC2 interrompidas
+D) Usando uma VPC da Amazon
+E) Conjunto de dados públicos
+
+Respostas Corretas:
+B) Uma instância EC2 em execução
+C) Volumes EBS anexados a instâncias EC2 interrompidas
+
+Pergunta:Uma empresa de logística sediada nos EUA executa sua aplicação web em uma frota de instâncias do Amazon EC2 em um grupo de Auto Scaling.
+Uma política governamental foi promulgada recentemente, proibindo a empresa de prestar serviços a um país específico.
+Qual das seguintes opções é a ação recomendada para cumprir com a exigência do governo?
+
+Opções:
+A) Crie uma regra de ACL da Web no AWS WAF para bloquear o país especificado. Associe a regra aos Application Load Balancers.
+B) Atualizar as tabelas de rotas para encaminhar todo o tráfego de saída para o Firewall de Rede da AWS e configurar um grupo de regras de lista de domínios.
+C) Atualize as Listas de Controle de Acesso à Rede de todas as sub-redes usadas pelas instâncias do Amazon EC2 para “negar” todos os endereços IP do país específico.
+D) Atualize as Listas de Controle de Acesso à Rede de todas as sub-redes usadas pelos Balanceadores de Carga de Aplicativos para “negar” todos os endereços IP do país específico.
+
+Resposta Correta: A
+
+Pergunta:Uma empresa possui uma frota de instâncias Spot EC2 em execução atrás de um Application Load Balancer.
+O tráfego de entrada vem de vários usuários em diversas regiões da AWS, e você gostaria que a sessão do usuário fosse compartilhada entre a frota de instâncias.
+Qual das seguintes opções seria a melhor escolha para atender ao requisito e ainda fornecer latência abaixo de um milissegundo para os usuários?
+
+Opções:
+A) Banco de dados Amazon RDS com RDS Proxy
+B) Amazon ElastiCache para Memcached com descoberta automática
+C) Sessões persistentes do AWS ELB
+D) Amazon ElastiCache para Redis Global Datastore
+
+Resposta Correta: B
+
+Pergunta:Uma empresa de análise de dados mantém um grande volume de dados armazenados em seu data center local.
+Ela possui um aplicativo de análise de dados local que acessa frequentemente os subconjuntos de dados mais recentes localmente, enquanto os dados mais antigos raramente são acessados.
+Você precisa minimizar a necessidade de escalar a infraestrutura de armazenamento local e, ao mesmo tempo, fornecer ao aplicativo web acesso de baixa latência aos dados.
+Que tipo de serviço do AWS Storage Gateway você usará para atender aos requisitos acima?
+
+Opções:
+A) Gateway de volume no modo armazenado
+B) Gateway de fita
+C) Gateway de volume em modo de cache
+D) Gateway de arquivos
+
+Resposta Correta: C
