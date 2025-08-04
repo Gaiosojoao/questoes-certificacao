@@ -1,8 +1,4 @@
-# Atualização do projeto para um layout mais moderno com Streamlit,
-# incluindo resposta do usuário e botão para finalizar e calcular desempenho
-
-# Novo app.py
-novo_app_py = """import streamlit as st
+import streamlit as st
 import httpx
 import os
 from dotenv import load_dotenv
@@ -115,19 +111,3 @@ Resposta do usuário: {st.session_state.respostas[idx]}
                 st.markdown(result)
         except Exception as e:
             st.error(f"Erro ao avaliar: {e}")
-"""
-
-# Salvar novo app.py
-with open("/mnt/data/streamlit_aws_questoes/app.py", "w", encoding="utf-8") as f:
-    f.write(novo_app_py)
-
-# Criar novo zip com versão moderna
-new_zip_path = "/mnt/data/projeto_streamlit_melhorado.zip"
-with zipfile.ZipFile(new_zip_path, "w") as zipf:
-    for root, _, files in os.walk("/mnt/data/streamlit_aws_questoes"):
-        for file in files:
-            file_path = os.path.join(root, file)
-            arcname = os.path.relpath(file_path, "/mnt/data/streamlit_aws_questoes")
-            zipf.write(file_path, arcname)
-
-new_zip_path
