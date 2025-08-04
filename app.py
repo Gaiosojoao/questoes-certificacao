@@ -33,7 +33,7 @@ def carregar_base_por_cert(cert):
 
 def gerar_questao(certificacao):
     base = carregar_base_por_cert(certificacao)
-    prompt = f\"\"\"
+    prompt = f"""
 Você é um gerador de questões no estilo AWS {certificacao}. Baseie-se nas questões abaixo:
 
 {base}
@@ -42,7 +42,7 @@ Agora gere uma nova questão original:
 - Com cenário
 - 4 alternativas (A-D)
 - Sem resposta, sem explicação
-\"\"\"
+"""
     headers = {
         "Authorization": f"Bearer {GROQ_API_KEY}",
         "Content-Type": "application/json"
@@ -81,7 +81,7 @@ if st.button("✅ Finalizar e Ver Desempenho"):
     st.markdown("---")
     st.markdown("### 🧠 Seu desempenho (avaliação feita via Groq LLM)")
     for idx, q in enumerate(st.session_state.questoes):
-        eval_prompt = f\"\"\"
+        eval_prompt = f"""
 Você é um avaliador de questões AWS.
 
 Pergunta:
@@ -93,7 +93,7 @@ Resposta do usuário: {st.session_state.respostas[idx]}
 2. Identifique a alternativa correta.
 3. Explique tecnicamente com base nas boas práticas da AWS.
 4. Adicione links oficiais no final.
-\"\"\"
+"""
         headers = {
             "Authorization": f"Bearer {GROQ_API_KEY}",
             "Content-Type": "application/json"
