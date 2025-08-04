@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+GROQ_API_KEY = "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"
 
 def carregar_base_por_cert(cert):
     arquivos = {
