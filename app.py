@@ -95,7 +95,7 @@ Resposta do usuário: {resposta_usuario}
     except Exception as e:
         return f"Erro ao avaliar: {e}"
 
-st.session_state.certificacao = st.selectbox("📘 Escolha a certificação:", ["developer", "saa", "sap", "clf", "aip"])
+st.session_state.certificacao = st.selectbox("📘 Escolha a certificação:", ["Developer Associate", "Architect Associate", "Architect Professional", "Cloud Practitioner", "AI Practitioner"])
 
 if st.button("➕ Gerar nova questão"):
     questao = gerar_questao(st.session_state.certificacao)
