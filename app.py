@@ -22,11 +22,11 @@ if "certificacao" not in st.session_state:
 
 def carregar_base_por_cert(cert):
     arquivos = {
-        "developer": "base_developer.txt",
-        "saa": "base_saa.txt",
-        "sap": "base_sap.txt",
-        "clf": "base_clf.txt",
-        "aip": "base_aip.txt"
+        "Developer Associate": "base_developer.txt",
+        "Architect Associate": "base_saa.txt",
+        "Architect Professional": "base_sap.txt",
+        "Cloud Practitioner": "base_clf.txt",
+        "AI Practitioner": "base_aip.txt"
     }
     caminho = arquivos.get(cert.lower(), "base_clf.txt")
     try:
@@ -81,7 +81,7 @@ Resposta do usuário: {resposta_usuario}
         "Content-Type": "application/json"
     }
     payload = {
-        "model": "llama3-70b-8192",
+        "model": "llama-3.3-70b-versatile",
         "messages": [{"role": "user", "content": eval_prompt}]
     }
 
