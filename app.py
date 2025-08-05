@@ -22,11 +22,11 @@ if "certificacao" not in st.session_state:
 
 def carregar_base_por_cert(cert):
     arquivos = {
-        "Developer Associate": "base_developer.txt",
-        "Architect Associate": "base_saa.txt",
-        "Architect Professional": "base_sap.txt",
-        "Cloud Practitioner": "base_clf.txt",
-        "AI Practitioner": "base_aip.txt"
+        "developer": "base_developer.txt",
+        "saa": "base_saa.txt",
+        "sap": "base_sap.txt",
+        "clf": "base_clf.txt",
+        "aip": "base_aip.txt"
     }
     caminho = arquivos.get(cert.lower(), "base_clf.txt")
     try:
@@ -37,7 +37,8 @@ def carregar_base_por_cert(cert):
 
 def gerar_questao(certificacao):
     base = carregar_base_por_cert(certificacao)
-    prompt = f\"\"\"Você é um gerador de questões no estilo AWS {certificacao}. Baseie-se nas questões abaixo:
+    prompt = f"""
+Você é um gerador de questões no estilo AWS {certificacao}. Baseie-se nas questões abaixo:
 
 {base}
 
@@ -45,7 +46,7 @@ Agora gere uma nova questão original:
 - Com cenário
 - 4 alternativas (A-D)
 - Sem resposta, sem explicação
-\"\"\"
+"""
     headers = {
         "Authorization": f"Bearer {GROQ_API_KEY}",
         "Content-Type": "application/json"
@@ -64,7 +65,8 @@ Agora gere uma nova questão original:
         return f"Erro: {str(e)}"
 
 def avaliar_questao(certificacao, pergunta, resposta_usuario):
-    eval_prompt = f\"\"\"Você é um avaliador de questões AWS.
+    eval_prompt = f"""
+Você é um avaliador de questões AWS.
 
 Pergunta:
 {pergunta}
@@ -75,13 +77,13 @@ Resposta do usuário: {resposta_usuario}
 2. Identifique a alternativa correta.
 3. Explique tecnicamente com base nas boas práticas da AWS.
 4. Adicione links oficiais no final.
-\"\"\"
+"""
     headers = {
         "Authorization": f"Bearer {GROQ_API_KEY}",
         "Content-Type": "application/json"
     }
     payload = {
-        "model": "llama-3.3-70b-versatile",
+        "model": "llama3-70b-8192",
         "messages": [{"role": "user", "content": eval_prompt}]
     }
 
