@@ -40,30 +40,30 @@ def gerar_questao(certificacao_friendly):
     cert_id = CERT_MAP.get(certificacao_friendly, "clf")
     base = carregar_base_por_cert(cert_id)
     prompt = f"""
-Você é um especialista em criar questões no estilo da prova oficial AWS {certificacao_friendly}.
-Com base nas questões abaixo (que representam o estilo e conteúdo esperados), crie uma nova questão.
-
-Base de inspiração:
-{base}
-
-Regras:
-- Utilize um cenário realista com linguagem técnica
-- Siga o estilo de múltipla escolha
-- Crie 4 alternativas (A, B, C, D)
-- Não inclua a resposta correta
-- Não adicione explicações, comentários ou links
-- Seja direto e preciso como uma questão de prova
-
-Formato:
-Pergunta:
-[enunciado da questão]
-
-Opções:
-A) ...
-B) ...
-C) ...
-D) ...
-"""
+    Você é um especialista em criar questões no estilo da prova oficial AWS {certificacao_friendly}.
+    Com base nas questões abaixo (que representam o estilo e conteúdo esperados), crie uma nova questão.
+    
+    Base de inspiração:
+    {base}
+    
+    Regras:
+    - Utilize um cenário realista com linguagem técnica
+    - Siga o estilo de múltipla escolha
+    - Crie 4 alternativas (A, B, C, D)
+    - Não inclua a resposta correta
+    - Não adicione explicações, comentários ou links
+    - Seja direto e preciso como uma questão de prova
+    
+    Formato:
+    Pergunta:
+    [enunciado da questão]
+    
+    Opções:
+    A) ...
+    B) ...
+    C) ...
+    D) ...
+    """
     headers = {
         "Authorization": f"Bearer {GROQ_API_KEY}",
         "Content-Type": "application/json"
@@ -83,23 +83,23 @@ D) ...
 
 def avaliar_questao(certificacao_friendly, pergunta, resposta_usuario):
     prompt = f"""
-Você é um avaliador experiente de questões de certificações AWS, como a {certificacao_friendly}.
-Com base na questão abaixo e na resposta fornecida, realize uma análise técnica objetiva.
-
-Questão:
-{pergunta}
-
-Resposta do usuário: {resposta_usuario}
-
-Sua tarefa:
-1. Informe se a resposta está correta ou incorreta.
-2. Aponte qual é a alternativa correta.
-3. Explique tecnicamente por que essa alternativa é a correta, com base nas boas práticas da AWS.
-4. Diga por que as outras alternativas estão incorretas.
-5. Inclua links oficiais da AWS relevantes no final, em Markdown.
-
-Mantenha o estilo formal e direto como esperado em provas oficiais e materiais técnicos.
-"""
+    Você é um avaliador experiente de questões de certificações AWS, como a {certificacao_friendly}.
+    Com base na questão abaixo e na resposta fornecida, realize uma análise técnica objetiva.
+    
+    Questão:
+    {pergunta}
+    
+    Resposta do usuário: {resposta_usuario}
+    
+    Sua tarefa:
+    1. Informe se a resposta está correta ou incorreta.
+    2. Aponte qual é a alternativa correta.
+    3. Explique tecnicamente por que essa alternativa é a correta, com base nas boas práticas da AWS.
+    4. Diga por que as outras alternativas estão incorretas.
+    5. Inclua links oficiais da AWS relevantes no final, em Markdown.
+    
+    Mantenha o estilo formal e direto como esperado em provas oficiais e materiais técnicos.
+    """
     headers = {
         "Authorization": f"Bearer {GROQ_API_KEY}",
         "Content-Type": "application/json"
