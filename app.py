@@ -18,34 +18,51 @@ if "respostas" not in st.session_state:
 if "avaliacoes" not in st.session_state:
     st.session_state.avaliacoes = []
 if "certificacao" not in st.session_state:
-    st.session_state.certificacao = "saa"
+    st.session_state.certificacao = "developer"
 
-def carregar_base_por_cert(cert):
-    arquivos = {
-        "developer": "base_developer.txt",
-        "saa": "base_saa.txt",
-        "sap": "base_sap.txt",
-        "clf": "base_clf.txt",
-        "aip": "base_aip.txt"
-    }
-    caminho = arquivos.get(cert.lower(), "base_clf.txt")
+CERT_MAP = {
+    "Developer Associate": "developer",
+    "Architect Associate": "saa",
+    "Architect Professional": "sap",
+    "Cloud Practitioner": "clf",
+    "AI Practitioner": "aip"
+}
+
+def carregar_base_por_cert(cert_id):
+    caminho = f"base/base_{cert_id}.txt"
     try:
         with open(caminho, "r", encoding="utf-8") as f:
             return f.read()
     except FileNotFoundError:
         return "Sem base para essa certificação."
 
-def gerar_questao(certificacao):
-    base = carregar_base_por_cert(certificacao)
+def gerar_questao(certificacao_friendly):
+    cert_id = CERT_MAP.get(certificacao_friendly, "clf")
+    base = carregar_base_por_cert(cert_id)
     prompt = f"""
-Você é um gerador de questões no estilo AWS {certificacao}. Baseie-se nas questões abaixo:
+Você é um especialista em criar questões no estilo da prova oficial AWS {certificacao_friendly}.
+Com base nas questões abaixo (que representam o estilo e conteúdo esperados), crie uma nova questão.
 
-{base/base_saa.txt}
+Base de inspiração:
+{base}
 
-Agora gere uma nova questão original:
-- Com cenário
-- 4 alternativas (A-D)
-- Sem resposta, sem explicação
+Regras:
+- Utilize um cenário realista com linguagem técnica
+- Siga o estilo de múltipla escolha
+- Crie 4 alternativas (A, B, C, D)
+- Não inclua a resposta correta
+- Não adicione explicações, comentários ou links
+- Seja direto e preciso como uma questão de prova
+
+Formato:
+Pergunta:
+[enunciado da questão]
+
+Opções:
+A) ...
+B) ...
+C) ...
+D) ...
 """
     headers = {
         "Authorization": f"Bearer {GROQ_API_KEY}",
@@ -64,19 +81,24 @@ Agora gere uma nova questão original:
     except Exception as e:
         return f"Erro: {str(e)}"
 
-def avaliar_questao(certificacao, pergunta, resposta_usuario):
-    eval_prompt = f"""
-Você é um avaliador de questões AWS.
+def avaliar_questao(certificacao_friendly, pergunta, resposta_usuario):
+    prompt = f"""
+Você é um avaliador experiente de questões de certificações AWS, como a {certificacao_friendly}.
+Com base na questão abaixo e na resposta fornecida, realize uma análise técnica objetiva.
 
-Pergunta:
+Questão:
 {pergunta}
 
 Resposta do usuário: {resposta_usuario}
 
+Sua tarefa:
 1. Informe se a resposta está correta ou incorreta.
-2. Identifique a alternativa correta.
-3. Explique tecnicamente com base nas boas práticas da AWS.
-4. Adicione links oficiais no final.
+2. Aponte qual é a alternativa correta.
+3. Explique tecnicamente por que essa alternativa é a correta, com base nas boas práticas da AWS.
+4. Diga por que as outras alternativas estão incorretas.
+5. Inclua links oficiais da AWS relevantes no final, em Markdown.
+
+Mantenha o estilo formal e direto como esperado em provas oficiais e materiais técnicos.
 """
     headers = {
         "Authorization": f"Bearer {GROQ_API_KEY}",
@@ -84,7 +106,7 @@ Resposta do usuário: {resposta_usuario}
     }
     payload = {
         "model": "llama3-70b-8192",
-        "messages": [{"role": "user", "content": eval_prompt}]
+        "messages": [{"role": "user", "content": prompt}]
     }
 
     try:
@@ -95,7 +117,7 @@ Resposta do usuário: {resposta_usuario}
     except Exception as e:
         return f"Erro ao avaliar: {e}"
 
-st.session_state.certificacao = st.selectbox("📘 Escolha a certificação:", ["Developer Associate", "Architect Associate", "Architect Professional", "Cloud Practitioner", "AI Practitioner"])
+st.session_state.certificacao = st.selectbox("📘 Escolha a certificação:", list(CERT_MAP.keys()))
 
 if st.button("➕ Gerar nova questão"):
     questao = gerar_questao(st.session_state.certificacao)
@@ -124,6 +146,6 @@ for idx, q in enumerate(st.session_state.questoes):
 
 if st.button("📊 Finalizar e Ver Desempenho Geral"):
     st.markdown("---")
-    acertos = sum("✔️ Correta" in av for av in st.session_state.avaliacoes if av)
+    acertos = sum("✔️ Correta" in av or "✅ Correta" in av for av in st.session_state.avaliacoes if av)
     total = len([a for a in st.session_state.avaliacoes if a])
     st.markdown(f"### 🎯 Resultado Final: {acertos}/{total} acertos")
