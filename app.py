@@ -69,7 +69,7 @@ def gerar_questao(certificacao):
     - Sem resposta ou explicação
     Formato:
     Pergunta: ...
-    Opções:
+
 
     A) ...
 
