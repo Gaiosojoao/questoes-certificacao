@@ -40,7 +40,7 @@ def gerar_questao(certificacao):
     prompt = f"""
 Você é um gerador de questões no estilo AWS {certificacao}. Baseie-se nas questões abaixo:
 
-{base}
+{base/base_saa.txt}
 
 Agora gere uma nova questão original:
 - Com cenário
