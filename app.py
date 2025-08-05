@@ -40,7 +40,7 @@ CERT_MAP = {
     "AI Practitioner": "aip"
 }
 
-st.title("🤖 Gerador de Questões AWS em estilo Chat")
+st.title("🤖 Gerador de Questões AWS")
 st.markdown("Escolha a certificação e gere uma nova questão. Responda diretamente no chat!")
 
 cert_friendly = st.selectbox("📘 Certificação:", list(CERT_MAP.keys()))
@@ -70,6 +70,7 @@ def gerar_questao(certificacao):
     Formato:
     Pergunta: ...
     Opções:
+
     A) ...
 
     B) ...
