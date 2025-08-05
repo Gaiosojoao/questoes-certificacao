@@ -58,23 +58,26 @@ def gerar_questao(certificacao):
     cert_id = CERT_MAP.get(certificacao, "clf")
     base = carregar_base_por_cert(cert_id)
     prompt = f"""
-Você é um especialista em criar questões no estilo da certificação AWS {certificacao}.
-Baseie-se nas questões de referência abaixo:
+    Você é um especialista em criar questões no estilo da certificação AWS {certificacao}.
+    Baseie-se nas questões de referência abaixo:
+    
+    {base}
+    
+    Crie uma nova questão:
+    - Com contexto prático
+    - 4 alternativas (A-D)
+    - Sem resposta ou explicação
+    Formato:
+    Pergunta: ...
+    Opções:
+    A) ...
 
-{base}
+    B) ...
 
-Crie uma nova questão:
-- Com contexto prático
-- 4 alternativas (A-D)
-- Sem resposta ou explicação
-Formato:
-Pergunta: ...
-Opções:
-A) ...
-B) ...
-C) ...
-D) ...
-"""
+    C) ...
+
+    D) ...
+    """
     headers = {"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"}
     payload = {
         "model": "llama-3.3-70b-versatile",
@@ -103,18 +106,18 @@ if st.session_state.chat_history and st.session_state.chat_history[-1][0] == "bo
         st.session_state.chat_history.append(("user", f"Minha resposta: {resposta}"))
 
         eval_prompt = f"""
-Você é um avaliador de questões da certificação AWS {cert_friendly}.
-
-Questão:
-{pergunta}
-
-Resposta do aluno: {resposta}
-
-1. A resposta está correta ou incorreta?
-2. Qual é a resposta correta?
-3. Explique por que a resposta correta é a mais adequada.
-4. Inclua links oficiais da AWS no final em Markdown.
-"""
+        Você é um avaliador de questões da certificação AWS {cert_friendly}.
+        
+        Questão:
+        {pergunta}
+        
+        Resposta do aluno: {resposta}
+        
+        1. A resposta está correta ou incorreta?
+        2. Qual é a resposta correta?
+        3. Explique por que a resposta correta é a mais adequada.
+        4. Inclua links oficiais da AWS no final em Markdown.
+        """
         headers = {"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"}
         payload = {
             "model": "llama-3.3-70b-versatile",
