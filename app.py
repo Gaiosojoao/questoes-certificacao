@@ -64,7 +64,8 @@ Agora gere uma nova questão original:
         return f"Erro: {str(e)}"
 
 def avaliar_questao(certificacao, pergunta, resposta_usuario):
-    eval_prompt = f\"\"\"Você é um avaliador de questões AWS.
+    eval_prompt = f"""
+    Você é um avaliador de questões AWS.
 
 Pergunta:
 {pergunta}
@@ -75,7 +76,7 @@ Resposta do usuário: {resposta_usuario}
 2. Identifique a alternativa correta.
 3. Explique tecnicamente com base nas boas práticas da AWS.
 4. Adicione links oficiais no final.
-\"\"\"
+"""
     headers = {
         "Authorization": f"Bearer {GROQ_API_KEY}",
         "Content-Type": "application/json"
